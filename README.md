@@ -140,7 +140,9 @@ O PHP de fato é uma das linguagens de programação amis populares da atualidad
 
 2. Hello World (muito importante)
 
-##### Estudo de Variáveis e Constantes em PHP
+### Semana 2 - Variáveis, Constantes e Operadores em PHP
+
+#### Estudo de Variáveis e Constantes em PHP
 
 Declarar variávies é alocar um espaço na memória que permite a inclusão e manipulação de dados. 
 
@@ -149,6 +151,7 @@ Declarar variávies é alocar um espaço na memória que permite a inclusão e m
 - devem ser declaradas usando "$" antes do nome da variável
 - são não tipadas ( não precisa declarar o tipo dela na criação) , 
 - podem ser String, Numéricas ( interger e float), Booleanas  e Nulas. Não Permite declaração de Undefined
+- Usar o "declare(Strict_types=1);" na primeira linha do arquivo; => blinda o sistema contra conflitos de tipos de variáveis
 
 **Constantes**
 
@@ -156,7 +159,8 @@ Declarar variávies é alocar um espaço na memória que permite a inclusão e m
 - pode ser criada usando "const" ou "define"
 - não permite interpolação
 
-##### Estudo de Operadores
+
+#### Estudo de Operadores
 
 **Aritméticos**: São usados para realizar Cálculso
 
@@ -181,9 +185,8 @@ obs: O Operador % é o melhor amigo de um programador , permite ordenar listas e
 | <= | Menor ou igual a | 10 <=5 | false |
 | == | Comparação de Valor | "10"==10 |  true |
 | === | Comparação Estrita | "10"===10 | false |
-| != | Diferente | "10" != 10 | false|
-|!==| Estritamente Diferente| "10" !== 10 | true |
-
+| != | Diferente | "10"!=10 | false |
+| !== | Estritamente Diferente | "10"!==10 | true | 
 
 
 **Lógicos**: Permite a Combinação entre sentenças. 
@@ -192,10 +195,63 @@ obs: O Operador % é o melhor amigo de um programador , permite ordenar listas e
     - true && true => true
     - true && false => false
 
-- Operador OR (OU) => || : : para o resultado ser verdadeiro, Basta apenas uma condição ser verdadeira
+- Operador OR (OU) => || : para o resultado ser verdadeiro, Basta apenas uma condição ser verdadeira
     - false || true => true
     - false || false => false
 
 - Operador NOT (Não) => ! : Inverte a lógica da Operação, 
     - !true => false
     - !false => true
+
+---
+
+### Semana 3 - Estrutura de Controle de Dados (Condicionais e Repetição)
+
+- **Conteúdo**: Estrutura `if`, `else`, `elseif`, operadores ternários, `match` => substituto do `switch/case`, loops `for`, `while`, `do-while` e `foreach`
+
+#### Estruturas de Controle da Dados Ajudam no Processo de Automatização em Programas e Sistemas
+
+##### Condicionais (IF, ELSE, ELSEIF)
+
+**Formas de Uso**
+
+- uso do `if` apenas:
+Exemplo: aplicar desconto de 10% em compras acima de 100 Reais;
+
+```mermaid
+
+graph LR
+
+    A[Comando] --> B{Condição} --> C[Ação]
+
+```
+
+```php
+
+if($valorCompra > 100){
+    $valorFinal = $valorCompra * 0.9;
+}
+
+```
+
+- Uso do `if`e do  `else`
+Exemplo: Aplicar um desconto de 10% para compras acima de 100reais e 5% para as demais compras
+
+```mermaid
+
+graph LR
+
+    A[Comando] --> B{Condição}
+    B --> |true| C[Ação 1]
+    B --> |false| D[Ação 2]
+
+```
+
+```php
+if($valorCompra > 100){
+    $valorFinal = $valorCompra * 0.9;
+} else {
+    $valorFinal = $valorCompra * 0.95;
+}
+```
+
