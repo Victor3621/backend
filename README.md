@@ -356,3 +356,31 @@ $nomeDiaSemana = match($diaSemanaNum) {
 echo "Hoje é : $nomeDiaSemana";
 
 ```
+
+---
+
+##### Laços de Repetição
+
+Um laço de repetição faz com que um bloco de código rode várias vezes até que uma condição mande parar. 
+
+- O Laço `while` (Enquanto)
+
+Ele verifica se a condição é verdadeira ANTES de entrar no laço. Ideal quando você não sabe exatamente quantas vezes vai rodar o laço. 
+
+```mermaid
+
+flowchart TD
+
+    A[Início: contador = 0] --> B{verdade?}
+    B -- Sim --> C[repete]
+    C --> D[executa código]
+    D --> B
+    B -- Não --> E[Fim do Laço]
+
+```
+
+Exemplo de Aplicação do While: 
+
+```
+
+- O Laço `do-while`
