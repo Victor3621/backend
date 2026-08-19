@@ -25,7 +25,6 @@ do {
 
     $resultado = match ($opcao) {
 
-        // Listar produtos
         1 => (function () use ($produtos) {
             echo "\n--- PRODUTOS DISPONÍVEIS ---\n";
 
@@ -40,7 +39,6 @@ do {
             return true;
         })(),
 
-        // Adicionar produto
         2 => (function () use (&$produtos, &$pedido) {
 
             echo "\n--- ADICIONAR PRODUTO ---\n";
@@ -58,7 +56,6 @@ do {
                 return false;
             }
 
-            // while para validar a quantidade
             $quantidade = 0;
 
             while (
@@ -77,10 +74,8 @@ do {
                 }
             }
 
-            // Diminui o estoque
             $produtos[$codigo]['estoque'] -= $quantidade;
 
-            // Registra o produto no pedido
             if (isset($pedido[$codigo])) {
                 $pedido[$codigo]['quantidade'] += $quantidade;
             } else {
@@ -96,7 +91,6 @@ do {
             return true;
         })(),
 
-        // Resumo do pedido
         3 => (function () use (&$pedido) {
 
             echo "\n--- RESUMO DO PEDIDO ---\n";
@@ -127,7 +121,6 @@ do {
             return true;
         })(),
 
-        // Finalizar compra
         4 => (function () use (&$pedido) {
 
             if (empty($pedido)) {
@@ -140,7 +133,6 @@ do {
 
             $total = 0;
 
-            // for para percorrer as posições do pedido
             $itens = array_values($pedido);
 
             for ($i = 0; $i < count($itens); $i++) {
@@ -200,14 +192,10 @@ do {
             return true;
         })(),
 
-        // Sair
         0 => true,
-
-        // Opção inválida
         default => false
     };
 
-    // Tratamento das opções
     if ($opcao === 0) {
         echo "\nSaindo sem finalizar a compra...\n";
         break;
@@ -218,7 +206,6 @@ do {
     }
 
     if ($resultado === false) {
-        // continue retorna ao início do do-while
         echo "\nOpção inválida ou operação não concluída.\n";
         continue;
     }
