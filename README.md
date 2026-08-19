@@ -379,8 +379,121 @@ flowchart TD
 
 ```
 
-Exemplo de Aplicação do While: 
+Exemplo de Aplicação do While:  jogo de Adivinhação de um nº Secreto
+
+```php
+
+$numeroSecreto = rand(1,10);
+
+$tentativas = 0;
+
+$numeroEscolhido = 0;
+
+while(numeroEscolhido != numeroSecreto){
+    echo "Tente Novamente"
+    //vou Escolher outro Nº para adivinhar
+    numeroEscolhido = rand(1,10);
+    tentativas++;
+}
+
+echo "Acertou Miseravi!!! o nº secreto é $numeroEscolhido";
+```
+
+- O Laço `do-while` (Faça - Enquanto)
+
+A diferença é que ele executa o bloco pelo menos uma vez, mesmo que a conduição seja false desde o início, pois ele só pergunta no final.
+
+```mermaid
+
+flowchart LR
+
+    A([Início]) --> B[Ação]
+    B --> C{Condição}
+    C --true--> B
+    C --false--> D([Fim])
+
+```
+Exemplo: Jogo de Adivinhação de um nº
+
+```php
+
+$numeroSecreto = rand(1,10);
+
+do{
+    $numeroEscolhido = rand(1,10);
+
+    if(numeroEscolhido == numeroSecreto){
+        echo "Parabéns, Acertou!!!";
+        break;
+    }
+    echo "Tente Novamente!!!";
+} while(numeroEscolhido != numeroSecreto);
 
 ```
 
-- O Laço `do-while`
+##### O Freio de Emergência: `break` e `continue`
+
+As vezes precisamoso interferir no laço enquanto ele está rodando 
+
+- `break`=> **Para Tudo!** Quebra o laço interiro e avai embora
+- `continue` => **Pula a rodada!** Ele ignora o código daquela rodada especifica e pula logo par a próxima repetição.
+
+Exemplo de Aplicação do Código: Sistema de Controle do Elevador
+
+```php 
+
+for($andar = 1 ; $andar<=10; $andar++){
+    if($andar ==4){
+        echo "Andar $andar está em obras. Passando direto!";
+        continue;
+    }
+
+    echo "Elevador parou no andar $andar"
+}
+```
+---
+
+##### Laço de Repetição `for`
+
+Use o `for`quando você sabe quantas vezes precisa repetir uma ação ou quando precisa controle um contador. Ele possui três partes:
+
+- inicialização,
+- condição,
+- incremento;
+
+for(inicialização; condição; incremento){
+    Ação
+}
+
+```mermaid
+
+flowchart LR
+    A[Início: i=0]  --> B{i<10?}
+    B --true--> C[Ação]
+    C --> D[i++]
+    D --> B
+    B --false--> E[Fim]
+    ```
+
+```php
+for($mes=1; $mes<=12; $mes++){
+        echo "Mês $mes";
+}
+```
+
+Nesse Exemplo, `$mes`começa em 1, o laço continua enquantio `$mes`for menor ou igual a 12 e, ao final de cada repetição, `$mes++`aumenta o contador em 1.
+
+##### Laço de Repetição `foreach`
+
+Use o `foreach` quando precisar percorrer cada item de um **array**. Ele acessa os elementos diretamente, sem que você precise controlar o contador.
+
+Exemplo: Imprimir todos os items de um vetor
+
+```php
+
+$frutas = ["Maçã", "Banana", "Uva", "Pera"];
+
+foreach($frutas as $fruta){
+    echo "Fruta: $fruta";
+}
+```
