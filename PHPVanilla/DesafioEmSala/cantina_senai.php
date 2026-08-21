@@ -11,6 +11,7 @@ $pedido = [];
 $opcao = 0;
 
 do {
+
     echo "\n==============================\n";
     echo "       CANTINA SENAI\n";
     echo "==============================\n";
@@ -23,194 +24,200 @@ do {
 
     $opcao = (int) readline("Escolha uma opção: ");
 
-    $resultado = match ($opcao) {
+    if ($opcao == 1) {
 
-        1 => (function () use ($produtos) {
-            echo "\n--- PRODUTOS DISPONÍVEIS ---\n";
+        echo "\n--- PRODUTOS DISPONÍVEIS ---\n";
 
-            foreach ($produtos as $codigo => $produto) {
-                echo "Código: $codigo\n";
-                echo "Nome: {$produto['nome']}\n";
-                echo "Preço: R$ " . number_format($produto['preco'], 2, ',', '.') . "\n";
-                echo "Estoque: {$produto['estoque']}\n";
-                echo "----------------------------\n";
-            }
+        foreach ($produtos as $codigo => $produto) {
 
-            return true;
-        })(),
+            echo "Código: " . $codigo . "\n";
+            echo "Nome: " . $produto["nome"] . "\n";
+            echo "Preço: R$ " . number_format($produto["preco"], 2, ",", ".") . "\n";
+            echo "Estoque: " . $produto["estoque"] . "\n";
+            echo "----------------------------\n";
+        }
 
-        2 => (function () use (&$produtos, &$pedido) {
+    } elseif ($opcao == 2) {
 
-            echo "\n--- ADICIONAR PRODUTO ---\n";
+        echo "\n--- ADICIONAR PRODUTO ---\n";
 
-            $codigo = (int) readline("Digite o código do produto: ");
+        $codigo = (int) readline("Digite o código do produto: ");
 
-            if (!isset($produtos[$codigo])) {
-                echo "Produto inexistente!\n";
-                echo "Voltando ao menu...\n";
-                return false;
-            }
+        if (isset($produtos[$codigo])) {
 
-            if ($produtos[$codigo]['estoque'] <= 0) {
-                echo "Produto sem estoque disponível!\n";
-                return false;
-            }
+            if ($produtos[$codigo]["estoque"] > 0) {
 
-            $quantidade = 0;
+                echo "Produto escolhido: " . $produtos[$codigo]["nome"] . "\n";
 
-            while (
-                $quantidade <= 0 ||
-                $quantidade > $produtos[$codigo]['estoque']
-            ) {
-                $quantidade = (int) readline(
-                    "Digite a quantidade (estoque disponível: " .
-                    $produtos[$codigo]['estoque'] . "): "
-                );
+                $quantidade = (int) readline("Digite a quantidade: ");
 
-                if ($quantidade <= 0) {
-                    echo "Quantidade inválida. Digite um valor maior que zero.\n";
-                } elseif ($quantidade > $produtos[$codigo]['estoque']) {
-                    echo "Quantidade maior que o estoque disponível.\n";
+                if ($quantidade > 0) {
+
+                    if ($quantidade <= $produtos[$codigo]["estoque"]) {
+
+                        $produtos[$codigo]["estoque"] =
+                            $produtos[$codigo]["estoque"] - $quantidade;
+
+                        if (isset($pedido[$codigo])) {
+
+                            $pedido[$codigo]["quantidade"] =
+                                $pedido[$codigo]["quantidade"] + $quantidade;
+
+                        } else {
+
+                            $pedido[$codigo] = [
+                                "nome" => $produtos[$codigo]["nome"],
+                                "preco" => $produtos[$codigo]["preco"],
+                                "quantidade" => $quantidade
+                            ];
+                        }
+
+                        echo "Produto adicionado ao pedido!\n";
+
+                    } else {
+
+                        echo "Quantidade maior que o estoque!\n";
+                    }
+
+                } else {
+
+                    echo "Quantidade inválida!\n";
                 }
-            }
 
-            $produtos[$codigo]['estoque'] -= $quantidade;
-
-            if (isset($pedido[$codigo])) {
-                $pedido[$codigo]['quantidade'] += $quantidade;
             } else {
-                $pedido[$codigo] = [
-                    "nome" => $produtos[$codigo]['nome'],
-                    "preco" => $produtos[$codigo]['preco'],
-                    "quantidade" => $quantidade
-                ];
+
+                echo "Produto sem estoque!\n";
             }
 
-            echo "Produto adicionado ao pedido com sucesso!\n";
+        } else {
 
-            return true;
-        })(),
+            echo "Produto não encontrado!\n";
+        }
 
-        3 => (function () use (&$pedido) {
+    } elseif ($opcao == 3) {
 
-            echo "\n--- RESUMO DO PEDIDO ---\n";
+        echo "\n--- RESUMO DO PEDIDO ---\n";
 
-            if (empty($pedido)) {
-                echo "Nenhum produto foi adicionado.\n";
-                return true;
-            }
+        if (empty($pedido)) {
+
+            echo "Nenhum produto foi adicionado.\n";
+
+        } else {
 
             $total = 0;
 
             foreach ($pedido as $item) {
-                $subtotal = $item['quantidade'] * $item['preco'];
-                $total += $subtotal;
 
-                echo "Nome: {$item['nome']}\n";
-                echo "Quantidade: {$item['quantidade']}\n";
-                echo "Preço unitário: R$ " .
-                    number_format($item['preco'], 2, ',', '.') . "\n";
+                $subtotal = $item["preco"] * $item["quantidade"];
+
+                echo "Produto: " . $item["nome"] . "\n";
+                echo "Quantidade: " . $item["quantidade"] . "\n";
+                echo "Preço: R$ " .
+                    number_format($item["preco"], 2, ",", ".") . "\n";
                 echo "Subtotal: R$ " .
-                    number_format($subtotal, 2, ',', '.') . "\n";
+                    number_format($subtotal, 2, ",", ".") . "\n";
+
                 echo "----------------------------\n";
+
+                $total = $total + $subtotal;
             }
 
-            echo "Total parcial: R$ " .
-                number_format($total, 2, ',', '.') . "\n";
+            echo "Total: R$ " .
+                number_format($total, 2, ",", ".") . "\n";
+        }
 
-            return true;
-        })(),
+    } elseif ($opcao == 4) {
 
-        4 => (function () use (&$pedido) {
+        if (empty($pedido)) {
 
-            if (empty($pedido)) {
-                echo "\nNenhum produto foi adicionado ao pedido.\n";
-                echo "Não é possível finalizar uma compra vazia.\n";
-                return false;
-            }
+            echo "\nVocê não adicionou nenhum produto.\n";
 
-            echo "\n--- FINALIZAÇÃO DA COMPRA ---\n";
+        } else {
+
+            echo "\n--- FINALIZANDO COMPRA ---\n";
 
             $total = 0;
 
-            $itens = array_values($pedido);
+            foreach ($pedido as $item) {
 
-            for ($i = 0; $i < count($itens); $i++) {
-                $subtotal =
-                    $itens[$i]['quantidade'] *
-                    $itens[$i]['preco'];
+                $subtotal = $item["preco"] * $item["quantidade"];
 
-                $total += $subtotal;
+                $total = $total + $subtotal;
             }
 
             echo "Total da compra: R$ " .
-                number_format($total, 2, ',', '.') . "\n";
+                number_format($total, 2, ",", ".") . "\n";
 
-            echo "\nForma de pagamento:\n";
+            echo "\nEscolha a forma de pagamento:\n";
             echo "1 - Pix (5% de desconto)\n";
             echo "2 - Cartão (sem desconto)\n";
             echo "3 - Dinheiro (3% de desconto)\n";
 
-            $pagamento = (int) readline("Escolha a forma de pagamento: ");
+            $pagamento = (int) readline("Digite a opção: ");
 
-            $resultadoPagamento = match ($pagamento) {
-                1 => [
-                    "nome" => "Pix",
-                    "desconto" => 0.05
-                ],
+            if ($pagamento == 1) {
 
-                2 => [
-                    "nome" => "Cartão",
-                    "desconto" => 0
-                ],
+                $desconto = $total * 0.05;
+                $totalFinal = $total - $desconto;
 
-                3 => [
-                    "nome" => "Dinheiro",
-                    "desconto" => 0.03
-                ],
+                echo "\nPagamento: Pix\n";
+                echo "Desconto: R$ " .
+                    number_format($desconto, 2, ",", ".") . "\n";
+                echo "Total final: R$ " .
+                    number_format($totalFinal, 2, ",", ".") . "\n";
 
-                default => null
-            };
+                echo "Compra finalizada com sucesso!\n";
+                echo "Obrigado por comprar na Cantina SENAI!\n";
 
-            if ($resultadoPagamento === null) {
-                echo "Pagamento inválido!\n";
-                return false;
+                $opcao = 4;
+
+            } elseif ($pagamento == 2) {
+
+                $desconto = 0;
+                $totalFinal = $total;
+
+                echo "\nPagamento: Cartão\n";
+                echo "Desconto: R$ 0,00\n";
+                echo "Total final: R$ " .
+                    number_format($totalFinal, 2, ",", ".") . "\n";
+
+                echo "Compra finalizada com sucesso!\n";
+                echo "Obrigado por comprar na Cantina SENAI!\n";
+
+                $opcao = 4;
+
+            } elseif ($pagamento == 3) {
+
+                $desconto = $total * 0.03;
+                $totalFinal = $total - $desconto;
+
+                echo "\nPagamento: Dinheiro\n";
+                echo "Desconto: R$ " .
+                    number_format($desconto, 2, ",", ".") . "\n";
+                echo "Total final: R$ " .
+                    number_format($totalFinal, 2, ",", ".") . "\n";
+
+                echo "Compra finalizada com sucesso!\n";
+                echo "Obrigado por comprar na Cantina SENAI!\n";
+
+                $opcao = 4;
+
+            } else {
+
+                echo "Forma de pagamento inválida!\n";
             }
+        }
 
-            $desconto = $total * $resultadoPagamento['desconto'];
-            $totalFinal = $total - $desconto;
+    } elseif ($opcao == 0) {
 
-            echo "\nForma de pagamento: {$resultadoPagamento['nome']}\n";
-            echo "Desconto: R$ " .
-                number_format($desconto, 2, ',', '.') . "\n";
-            echo "Total final: R$ " .
-                number_format($totalFinal, 2, ',', '.') . "\n";
+        echo "\nSaindo do programa...\n";
 
-            echo "\nCompra finalizada com sucesso!\n";
-            echo "Obrigado por comprar na Cantina SENAI!\n";
+    } else {
 
-            return true;
-        })(),
-
-        0 => true,
-        default => false
-    };
-
-    if ($opcao === 0) {
-        echo "\nSaindo sem finalizar a compra...\n";
-        break;
+        echo "\nOpção inválida!\n";
     }
 
-    if ($opcao === 4 && $resultado === true) {
-        break;
-    }
-
-    if ($resultado === false) {
-        echo "\nOpção inválida ou operação não concluída.\n";
-        continue;
-    }
-
-} while ($opcao !== 4 && $opcao !== 0);
+} while ($opcao != 0 && $opcao != 4);
 
 echo "\nPrograma encerrado.\n";
 
