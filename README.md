@@ -631,3 +631,51 @@ function registroLog(string $mensagem): void{
     file_put_contents("erro.log",$mensagem);
 }
 ```
+
+#### Escopo e Referência (O segredo da memória)
+
+##### O que é Escopo? (A Regra de Las Vegas)
+
+*O que acontece dentro da função, fica dentro da função*. Uma variável criada fora  nã existe lá dentro, e uma criada lá dentro morre quando a função acaba.
+
+**Escopo** é o local do programa onde a variável pode ser armazenada/acessada. Em PHP, uma variável criada fora de uma função pertende ao **escopo global**. uma variável criada dentro de uma função pertence ao **escopo local**.
+
+```php 
+$nomeSistema = "CRM Senai"; //Variável global
+
+function criarMensagem():string{
+    $mensagem = "Bem-Vindo!"; //Variável local
+    return $mensagem;
+}
+
+echo $nomeSistema; //Correto: esta no escopo global
+echo criarMensagem(); //Correto: a função devolve sua variável local.
+echo $mensagem; // Incorreto: $mensagem só existe dentro da função, não é acessada fora
+```
+
+* Como enviar dados para uma função?
+
+A forma mais segura e organizada é enviar os dados por **parâmetros**. Assim, a função não precisa acessar diretamento variáveis globais:
+
+```php
+function saudar(string $nome):string{
+    return "Olá, $nome!";
+}
+
+$nomeCliente = "João";
+echo saudar($nomeCliente); // Olá, João!
+```
+
+Nesse caso, `$nomeCliente` continua no escopo global, mas seu valor é enviado para o parâmetro local `$nome`. A função recebe uma informação, processa e retorna o resultado.
+
+Exemplo Incorreto:
+
+```php
+$nome = "João";
+function saudar():string{
+    return "Olá, $nome";
+}
+```
+A função `saudar()`não conhece a variável globla `$nome`
+
+> **Resumo:** variáveis protegem os dados internos da função; parâmetros são o caminho recomendado para evitar Erros e enviar Informações, e `return`é usado para devolver um resultado ao código que chamou a função.
