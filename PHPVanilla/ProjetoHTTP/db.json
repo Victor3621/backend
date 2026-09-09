@@ -1,0 +1,29 @@
+{
+  "usuarios": [
+    {
+      "id": "1",
+      "nome": "Maria",
+      "profissao": "Advogada",
+      "status": "ativo"
+    },
+    {
+      "id": "2",
+      "nome": "João",
+      "profissao": "Consultor",
+      "status": "Inativo"
+    },
+    {
+      "id": "3",
+      "nome": "Joana",
+      "profissao": "Médica",
+      "status": "ativo"
+    },
+    {
+      "nome": "Bruno",
+      "profissão": "pedreiro",
+      "status": "inativo",
+      "id": "uhc93cCm0LM"
+    }
+  ],
+  "$schema": "./node_modules/json-server/schema.json"
+}
