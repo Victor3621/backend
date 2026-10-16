@@ -38,9 +38,9 @@ final class ConexaoBanco {
         }// caso o arquivo exista
         $dados = parse_ini_file($caminho, true);
         if($dados === false || !isset($dados["database"])){
-            throw new \RuntimeException("Seçao [database] ausente no arquivo de configuração");
+            throw new \RuntimeException("Secao [database] ausente no arquivo de configuracao");
         }// se tudo estiver certo
-        return $dados["database"];
+        return $dados['database'];
     }
 
     // criar método para estabelecer a conexão com o banco

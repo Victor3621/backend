@@ -36,8 +36,19 @@ final class UsuarioDAO{
         $resultado = $stmt->fetch(PDO::FETCH_ASSOC);
         return $resultado ?: null;
     }
-}
 
+    public function emailExiste(string $email): bool{
+        //busca apenas a coluna do email a partir do email digitado
+        $sql = "SELECT 1 FROM usuarios WHERE email = :email";
+        $stmt = $this->pdo->prepare($sql);
+        $stmt->bindValue(":email", strtolower(trim($email)), PDO::PARAM_STR);
+        $stmt->execute();
+
+        return (bool)$stmt->fetchColumn(); 
+        //(bool) => CAST para garantir que o retrono vai ser uma booleana
+    }
+    
+}
 
 
 
