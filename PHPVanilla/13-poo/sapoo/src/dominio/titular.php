@@ -1,7 +1,5 @@
 <?php
 declare(strict_types=1);
-
-use InvalidArgumentException;
 //Classe para Representar o titular ca conta bancaria
 
 final class Titular {

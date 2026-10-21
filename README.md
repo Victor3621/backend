@@ -1663,7 +1663,7 @@ quadrantChart
 *Exemplo:* Para um sistema bancário, o que importa em um cliente é seu nome, CPF e renda. Sua altura ou cor favorita são abstrações e podem ser descartados.
 
 2. **Pilar 2: Encapsulamento**
-**Definição**: Bildagem dos estads internos do objeto. Os atributos devem ser protegisdos conta acessos ou modificações diretas pelo mundo exterior. Alterações no estado só ocorrem através de métodos públicos que validam regras de negócio e mantêm invariantes contábeis.
+**Definição**: Blindagem dos estados internos do objeto. Os atributos devem ser protegisdos conta acessos ou modificações diretas pelo mundo exterior. Alterações no estado só ocorrem através de métodos públicos que validam regras de negócio e mantêm invariantes contábeis.
 
 3. **Pilar 3: Herança**
 **Definição**: Mecanismo pelo qual uma classe filha (subclasse) herda atributos e comportamentos de uma classe ancestral (superclasse), promovendo o reuso de códigos e estabelecendo uma relação do tipo **É UM**
